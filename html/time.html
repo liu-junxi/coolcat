@@ -1,0 +1,348 @@
+<!--
+ * @Description: 备份方案
+ * @Version: 2.0
+ * @Autor: Yang Han
+ * @Date: 2020-05-06 20:25:38
+ * @LastEditors: Yang Han
+ * @LastEditTime: 2020-06-23 08:52:53
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>设置自动备份</title>
+    <link href="../css/1.css" rel="stylesheet">
+    <link href="../node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+        }
+
+        .content {
+            position: relative;
+        }
+
+        .card1 {
+            background-color: skyblue;
+            height: 600px;
+            padding: 20px 20px;
+            margin: 40px 130px;
+            margin-left: 130px;
+            margin-right: 100px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px skyblue;
+        }
+
+        .card2 {
+            display: none;
+            background-color: skyblue;
+            height: 700px;
+            padding: 20px 20px;
+            margin: 40px 190px;
+            margin-left: 130px;
+            margin-right: 100px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px skyblue;
+        }
+
+        .manual,
+        .default {
+            font-size: 12px;
+            display: block;
+        }
+
+
+        .manual_block {
+            display: block;
+
+        }
+
+        .default_block {
+            display: block;
+        }
+
+
+
+        .selectFiles {
+            /* width: 70%; */
+            height: 250px;
+            border: 1px solid rgb(5, 167, 231);
+            margin-left: 0px;
+            margin-top: 30px;
+            background-color: rgb(177, 233, 255);
+            position: relative;
+            overflow: scroll;
+            /* box-shadow: 0 2px 10px rgb(5, 167, 231); */
+        }
+
+        .form-row select {
+            width: 90px;
+        }
+
+        .selectFiles::-webkit-scrollbar {
+            width: 6px;
+            /*height: 4px;*/
+        }
+
+        .selectFiles::-webkit-scrollbar-thumb {
+            border-radius: 7px;
+
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .selectFiles::-webkit-scrollbar-track {
+
+            border-radius: 0;
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+
+
+        .card2 button {
+            margin-top: -12px;
+        }
+
+        .card1-path {
+            display: none;
+        }
+
+        .card1_form {
+            width: 50%;
+        }
+
+        .remove1 {
+            cursor: pointer
+        }
+
+        .remove2 {
+            cursor: pointer
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        window.$ = window.jQuery = require('../node_modules/jquery/dist/jquery.min.js');
+        require('../node_modules/bootstrap/dist/js/bootstrap.min.js');
+    </script>
+    <div class="box">
+
+
+        <!-- 顶部菜单 -->
+        <div class="top">
+            <div style="width: 100%;height: 40px;"></div>
+            <nav class="navbar navbar-expand bg-dark navbar-dark fixed-top"
+                style="height: 35px;overflow: hidden;border-bottom: 2px solid black;">
+                <ul class="navbar-nav">
+                    <li class="nav-item" id="top_retreat">
+                        <a class="nav-link" href="#">
+                            <svg class="bi bi-arrow-left-short" width="2em" height="2em" viewBox="0 0 16 16"
+                                fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M7.854 4.646a.5.5 0 010 .708L5.207 8l2.647 2.646a.5.5 0 01-.708.708l-3-3a.5.5 0 010-.708l3-3a.5.5 0 01.708 0z"
+                                    clip-rule="evenodd" />
+                                <path fill-rule="evenodd" d="M4.5 8a.5.5 0 01.5-.5h6.5a.5.5 0 010 1H5a.5.5 0 01-.5-.5z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                    </li>
+                    <li class="nav-item" id="top_go">
+                        <a class="nav-link" href="#">
+                            <svg class="bi bi-arrow-right-short" width="2em" height="2em" viewBox="0 0 16 16"
+                                fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M8.146 4.646a.5.5 0 01.708 0l3 3a.5.5 0 010 .708l-3 3a.5.5 0 01-.708-.708L10.793 8 8.146 5.354a.5.5 0 010-.708z"
+                                    clip-rule="evenodd" />
+                                <path fill-rule="evenodd" d="M4 8a.5.5 0 01.5-.5H11a.5.5 0 010 1H4.5A.5.5 0 014 8z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                    </li>
+                    <li class="nav-item" id="top_back">
+                        <a class="nav-link" href="#">
+                            <svg class="bi bi-arrow-90deg-up" width="2em" height="2em" viewBox="0 0 16 16"
+                                fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M2.646 6.854a.5.5 0 00.708 0L6 4.207l2.646 2.647a.5.5 0 10.708-.708l-3-3a.5.5 0 00-.708 0l-3 3a.5.5 0 000 .708z"
+                                    clip-rule="evenodd" />
+                                <path fill-rule="evenodd"
+                                    d="M6 3.5a.5.5 0 00-.5.5v6.5A2.5 2.5 0 008 13h5.5a.5.5 0 000-1H8a1.5 1.5 0 01-1.5-1.5V4a.5.5 0 00-.5-.5z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                    </li>
+
+
+                    <li class="nav-item" id="top_home">
+                        <a class="nav-link" href="./index.html">
+                            <svg class="bi bi-house-door" width="1.5em" height="1.5em" viewBox="0 0 16 16"
+                                fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M7.646 1.146a.5.5 0 01.708 0l6 6a.5.5 0 01.146.354v7a.5.5 0 01-.5.5H9.5a.5.5 0 01-.5-.5v-4H7v4a.5.5 0 01-.5.5H2a.5.5 0 01-.5-.5v-7a.5.5 0 01.146-.354l6-6zM2.5 7.707V14H6v-4a.5.5 0 01.5-.5h3a.5.5 0 01.5.5v4h3.5V7.707L8 2.207l-5.5 5.5z"
+                                    clip-rule="evenodd" />
+                                <path fill-rule="evenodd" d="M13 2.5V6l-2-2V2.5a.5.5 0 01.5-.5h1a.5.5 0 01.5.5z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                    </li>
+                </ul>
+                <button type="button" class="btn btn-outline-secondary tab_button" style="margin-left: 30px;display: none;" id="d_table">清空备份记录</button>
+
+                
+
+            </nav>
+        </div>
+        <!-- 左侧菜单 -->
+        <div class="content">
+            <div class="left">
+                <nav class="navbar bg-dark navbar-dark fixed-top " style="width: 180px;top: 35px; ">
+                    <ul class="navbar-nav" style="margin-left: 20px;">
+                        
+                        
+
+                        <li class="nav-item RegularBackup_f">
+                            <a class="nav-link" href="#">
+                                <svg class="bi bi-columns-gap" width="1em" height="1em" viewBox="0 0 16 16"
+                                    fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M6 1H1v3h5V1zM1 0a1 1 0 00-1 1v3a1 1 0 001 1h5a1 1 0 001-1V1a1 1 0 00-1-1H1zm14 12h-5v3h5v-3zm-5-1a1 1 0 00-1 1v3a1 1 0 001 1h5a1 1 0 001-1v-3a1 1 0 00-1-1h-5zM6 8H1v7h5V8zM1 7a1 1 0 00-1 1v7a1 1 0 001 1h5a1 1 0 001-1V8a1 1 0 00-1-1H1zm14-6h-5v7h5V1zm-5-1a1 1 0 00-1 1v7a1 1 0 001 1h5a1 1 0 001-1V1a1 1 0 00-1-1h-5z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                定时备份 <strong>+</strong> </a>
+                        </li>
+                        <li class="nav-item default">
+                            <a class="nav-link" href="#" id="t">
+                                &nbsp;&nbsp;&nbsp;&nbsp;<svg class="bi bi-alarm" width="1em" height="1em"
+                                    viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M8 15A6 6 0 1 0 8 3a6 6 0 0 0 0 12zm0 1A7 7 0 1 0 8 2a7 7 0 0 0 0 14z"
+                                        clip-rule="evenodd" />
+                                    <path fill-rule="evenodd"
+                                        d="M8 4.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.053.224l-1.5 3a.5.5 0 1 1-.894-.448L7.5 8.882V5a.5.5 0 0 1 .5-.5z"
+                                        clip-rule="evenodd" />
+                                    <path
+                                        d="M.86 5.387A2.5 2.5 0 1 1 4.387 1.86 8.035 8.035 0 0 0 .86 5.387zM11.613 1.86a2.5 2.5 0 1 1 3.527 3.527 8.035 8.035 0 0 0-3.527-3.527z" />
+                                    <path fill-rule="evenodd"
+                                        d="M11.646 14.146a.5.5 0 0 1 .708 0l1 1a.5.5 0 0 1-.708.708l-1-1a.5.5 0 0 1 0-.708zm-7.292 0a.5.5 0 0 0-.708 0l-1 1a.5.5 0 0 0 .708.708l1-1a.5.5 0 0 0 0-.708zM5.5.5A.5.5 0 0 1 6 0h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1-.5-.5z"
+                                        clip-rule="evenodd" />
+                                    <path d="M7 1h2v2H7V1z" />
+                                </svg>
+                                管理备份方案</a>
+                        </li>
+                        <li class="nav-item manual">
+                            <a class="nav-link" href="#" id="tt">
+                                &nbsp;&nbsp;&nbsp;&nbsp;<svg class="bi bi-cloud-download" width="1em" height="1em"
+                                    viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M4.887 5.2l-.964-.165A2.5 2.5 0 1 0 3.5 10H6v1H3.5a3.5 3.5 0 1 1 .59-6.95 5.002 5.002 0 1 1 9.804 1.98A2.501 2.501 0 0 1 13.5 11H10v-1h3.5a1.5 1.5 0 0 0 .237-2.981L12.7 6.854l.216-1.028a4 4 0 1 0-7.843-1.587l-.185.96z" />
+                                    <path fill-rule="evenodd"
+                                        d="M5 12.5a.5.5 0 0 1 .707 0L8 14.793l2.293-2.293a.5.5 0 1 1 .707.707l-2.646 2.646a.5.5 0 0 1-.708 0L5 13.207a.5.5 0 0 1 0-.707z"
+                                        clip-rule="evenodd" />
+                                    <path fill-rule="evenodd"
+                                        d="M8 6a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0v-8A.5.5 0 0 1 8 6z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                备份日志 </a>
+                        </li>
+
+                        <li class="nav-item RegularBackup_f" style="height: 10000px;">
+
+                        </li>
+
+                    </ul>
+                </nav>
+            </div>
+
+            <!-- 小卡片区域 -->
+            <div class="card1 w-75">
+                <div class="card-body">
+                    <h5 class="card-title">自动备份</h5>
+                    
+                    <form>
+                        <div class="form-row align-items-center">
+                            <!-- <div class="col-auto my-1">
+                                <label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Preference</label>
+                                
+                            </div> -->
+                            <p style="width: 100%;"></p>
+                            <div class="col-auto my-1">
+                                <button type="button" class="btn btn-primary backupTo" id="c_xn">选择备份到</button>
+                            </div>
+                            <span class="alert alert-primary" role="alert" style="display: inline-block;" height="10px"
+                                id="xn">
+                                选择备份到某个虚拟盘
+                            </span>
+                            &nbsp;&nbsp;&nbsp;
+                            <p style="width: 100%;"></p>
+                            <div class="col-auto my-1">
+                                <button type="button" class="btn btn-secondary" id="c_wjj2">选择文件夹</button>
+                            </div>
+                            <span class="alert alert-primary" role="alert" style="display: inline-block;" height="10px"
+                                id="wjj2">
+                                请选择一个需要备份的文件夹
+                            </span>
+                            &nbsp;&nbsp;&nbsp;
+                            <div class="col-auto my-1 yes">
+                                <button type="button" class="btn btn-primary card2_button btn_yes" return
+                                    false;>确定</button>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- <a href="#" class="btn btn-primary">确定</a> -->
+                    <div class="selectFiles">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col" style="white-space: nowrap;text-align:center;">备份文件夹路径</th>
+                                    <th scope="col" style="white-space: nowrap;text-align:center;">备份到</th>
+                                    <!-- <th scope="col" style="white-space: nowrap;text-align:center;">频率</th> -->
+                                    <th scope="col" style="white-space: nowrap;text-align:center;">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody2">
+
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                </div>
+
+            </div>
+            
+
+            <div class="card2 w-75">
+                <table id="table_jo">
+
+                </table>
+
+            </div>
+            <!-- 小卡片区域 end -->
+           
+            <!-- 变化区域 -->
+            <div class="right" style="position: relative;" id="main0">
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+</body>
+
+</html>
+
+<script src="../module/share/view.js"></script>
+<script src="../module/share/read.js"></script>
+<script src="../module/time_/time1_table2.js"></script>
+<script src="../module/time_/time2.js"></script>

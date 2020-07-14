@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>任务进行中。。。</title>
+    <link href="../node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<script>
+    window.$ = window.jQuery = require('../node_modules/jquery/dist/jquery.min.js');
+    require('../node_modules/bootstrap/dist/js/bootstrap.min.js');   
+</script>
+
+<body>
+    <h3 id="pp">上传中，请不要关闭窗口</h3>
+    <div class="progress" style="margin-top: 50px;">
+        <div class="progress-bar progress-bar-striped progress-bar-animated" id="jdt"></div>
+    </div>
+</body>
+
+</html>
+<script>
+    console.log(localStorage.jdt_typ)
+    if (localStorage.jdt_typ == "dow") {
+        document.getElementById("pp").innerText = "下载中，请不要关闭窗口"
+    }
+    function jd(x) {
+        document.getElementById("jdt").style.width = x + "%"
+    }
+
+    var c = setInterval(() => {
+        jd(localStorage.jdt)
+        if (localStorage.jdt == 100) {
+            if (localStorage.jdt_typ == "dow") {
+                document.getElementById("pp").innerText = "下载完成！！！"
+                localStorage.jdt_typ = "f"
+                console.log(localStorage.jdt_typ)
+            } else {
+                document.getElementById("pp").innerText = "上传完成！！！"
+            }
+            localStorage.jdt = 0
+            clearInterval(c)
+        }
+    }, 500)
+
+
+</script>
