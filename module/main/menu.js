@@ -4,7 +4,16 @@ const {
 let template = [{
     label: '帮助',
     click: () => {
-        console.log("帮助")
+        
+        var { BrowserWindow } = require('electron')
+        //获取当前窗口
+        
+        bWindow = new BrowserWindow({ width: 900, height: 600, webPreferences: { nodeIntegration: true } })
+        bWindow.loadURL('http://www.liujunxi.vip/coolcat/bz.html');
+        bWindow.on('closed', () => {
+            bWindow = null;
+        })
+    
     }
 }, {
     label: '查看',
