@@ -22,7 +22,7 @@
   "private": true,
   "main": "main.js",
   "devDependencies": {
-    "electron": "^8.2.0",
+    "electron": "^8.5.1",
     "electron-localstorage": "^1.0.5"
   },
   "author": "Daniel Perez Alvarez <unindented@gmail.com> (http://unindented.org/)",
